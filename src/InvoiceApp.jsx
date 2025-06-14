@@ -1,9 +1,9 @@
-import { invoice } from "../data/invoice"
-import { getInvoice } from "../services/getInvoiceServices"
-import { InvoiceDataClient } from "./InvoiceDataClient";
-import { InvoiceDataCompany } from "./InvoiceDataCompany";
-import { InvoiceView } from "./InvoiceView";
-import { ListItemView } from "./ListItemsView";
+import { invoice } from "./data/invoice"
+import { getInvoice } from "./services/getInvoiceServices"
+import { InvoiceDataClient } from "./components/InvoiceDataClient";
+import { InvoiceDataCompany } from "./components/InvoiceDataCompany";
+import { InvoiceView } from "./components/InvoiceView";
+import { ListItemView } from "./components/ListItemsView";
 
 export const InvoiceApp = () => {
     //Se desestructura para obtener los atributos y objetos del json
@@ -17,7 +17,7 @@ export const InvoiceApp = () => {
                         Ejemplo Factura
                     </div>
                     <div className="card-body">
-                        <InvoiceView id={id} name={name}/>
+                        <InvoiceView title='Catalogo' id={id} name={name}/>
                         <div className="row my-3">
 
                             <div className="col">

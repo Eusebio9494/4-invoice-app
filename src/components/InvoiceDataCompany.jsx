@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 
 export const InvoiceDataCompany = ({title, company}) => {
     return (
@@ -9,4 +10,9 @@ export const InvoiceDataCompany = ({title, company}) => {
             </ul>
         </>
     )
+}
+
+InvoiceDataCompany.propTypes = {
+    title: PropTypes.string.isRequired,
+    company: PropTypes.string.isRequired,
 }
