@@ -4,10 +4,11 @@ import { InvoiceDataClient } from "./components/InvoiceDataClient";
 import { InvoiceDataCompany } from "./components/InvoiceDataCompany";
 import { InvoiceView } from "./components/InvoiceView";
 import { ListItemView } from "./components/ListItemsView";
+import { TotalView } from "./components/TotalView";
 
 export const InvoiceApp = () => {
     //Se desestructura para obtener los atributos y objetos del json
-    const { id, client, name, company, items } = getInvoice();
+    const {total, id, client, name, company, items } = getInvoice();
     
     return (
         <>
@@ -31,6 +32,7 @@ export const InvoiceApp = () => {
                         </div>
 
                         <ListItemView title='Productos' items={items} />
+                        <TotalView total={total}/>
                     </div>
                 </div>
             </div>
