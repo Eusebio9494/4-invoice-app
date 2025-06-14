@@ -43,13 +43,13 @@ export const InvoiceApp = () => {
                         <form onSubmit={event =>{
                             event.preventDefault();
                             setItems([...items, 
-                                {id: 4, product: productValue, 
+                                {id: Date.now(), product: productValue, 
                                     price: +priceValue, 
                                     quantity: parseInt(quantitytValue, 10)}
                             ]);
                             setProductValue('');
-                            setPriceValue(0);
-                            setQuantityValue(0);
+                            setPriceValue('');
+                            setQuantityValue('');
                         }}>
                             <input type="text" 
                             name="product" 
