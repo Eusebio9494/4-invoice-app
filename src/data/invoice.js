@@ -1,7 +1,8 @@
 
 export const invoice = {
     id: 10,
-    name: null,
+    name: 'Componentes PC',
+
     client: {
         name: 'Eusebio',
         lastName: 'Olvera',
@@ -35,7 +36,7 @@ export const invoice = {
             product: 'Monitor Asus',
             price: 350,
             quantity: 1,
-        }         
+        }
     ]
 
 }
