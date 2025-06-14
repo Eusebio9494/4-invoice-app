@@ -46,23 +46,31 @@ export const InvoiceApp = () => {
                                 {id: 4, product: productValue, 
                                     price: +priceValue, 
                                     quantity: parseInt(quantitytValue, 10)}
-                            ])
+                            ]);
+                            setProductValue('');
+                            setPriceValue(0);
+                            setQuantityValue(0);
                         }}>
                             <input type="text" 
                             name="product" 
+                            value={productValue} //para limpiar valor despues de enviar formulario
                             placeholder="Producto" className="form-control m-4" onChange={ event => {
                                 console.log(event.target.value)
                                 setProductValue(event.target.value)
                                 //target es el campo
                                 //value es el valor ingresado
                             }}/>
+
                             <input type="text" 
                             name="price" 
+                            value={priceValue}
                             placeholder="Precio" className="form-control m-4" onChange={ event => {
                                 console.log(event.target.value)
                                 setPriceValue(event.target.value)}}/>
+
                             <input type="text" 
                             name="quantity" 
+                            value={quantitytValue}
                             placeholder="Quantity" className="form-control m-4" onChange={ event => {
                                 console.log(event.target.value)
                                 setQuantityValue(event.target.value)}}/>
