@@ -1,4 +1,4 @@
-import { invoice } from "./data/invoice"
+import { useState } from "react";
 import { getInvoice } from "./services/getInvoiceServices"
 import { InvoiceDataClient } from "./components/InvoiceDataClient";
 import { InvoiceDataCompany } from "./components/InvoiceDataCompany";
@@ -8,8 +8,14 @@ import { TotalView } from "./components/TotalView";
 
 export const InvoiceApp = () => {
     //Se desestructura para obtener los atributos y objetos del json
-    const {total, id, client, name, company, items } = getInvoice();
+    const {total, id, client, name, company, items: itemsInitial  } = getInvoice();
     
+
+    const [productValue, setProductValue] = useState('')
+    const [priceValue, setPriceValue] = useState(0)
+    const [quantitytValue, setQuantityValue] = useState(0)
+
+    const [items, setItems] = useState(itemsInitial);
     return (
         <>
             <div className="container"> 
@@ -34,22 +40,33 @@ export const InvoiceApp = () => {
                         <ListItemView title='Productos' items={items} />
                         <TotalView total={total}/>
 
-                        <form>
+                        <form onSubmit={event =>{
+                            event.preventDefault();
+                            setItems([...items, 
+                                {id: 4, product: productValue, 
+                                    price: +priceValue, 
+                                    quantity: parseInt(quantitytValue, 10)}
+                            ])
+                        }}>
                             <input type="text" 
                             name="product" 
                             placeholder="Producto" className="form-control m-4" onChange={ event => {
                                 console.log(event.target.value)
+                                setProductValue(event.target.value)
                                 //target es el campo
                                 //value es el valor ingresado
                             }}/>
                             <input type="text" 
                             name="price" 
-                            placeholder="Precio" className="form-control m-4"onChange={ event => {
-                                console.log(event.target.value)}}/>
+                            placeholder="Precio" className="form-control m-4" onChange={ event => {
+                                console.log(event.target.value)
+                                setPriceValue(event.target.value)}}/>
                             <input type="text" 
                             name="quantity" 
-                            placeholder="Quantity" className="form-control m-4"onChange={ event => {
-                                console.log(event.target.value)}}/>
+                            placeholder="Quantity" className="form-control m-4" onChange={ event => {
+                                console.log(event.target.value)
+                                setQuantityValue(event.target.value)}}/>
+                        <button type="submit" className="btn btn-primary">Crear Item</button>
                         </form>
                     </div>
                 </div>
