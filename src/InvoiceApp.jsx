@@ -45,13 +45,23 @@ export const InvoiceApp = () => {
                         <form onSubmit={event => {
                             event.preventDefault();
 
-                            if(productValue.trim().length <= 1) return;
+                            if(!productValue.trim()) return;
                             if(priceValue.trim().length <= 1) return;
-                            if(quantitytValue.trim().length < 1) return;
+                            if(isNaN(priceValue.trim())) {
+                                alert('Error el precio no es un número')
+                                return};
+                            if(quantitytValue.trim().length < 1) {
+                                alert('Error la cantidad tiene que ser mayor a 0')
+                                return};
+                            if(isNaN(quantitytValue)) {
+                                alert('Error la cantidad no es un número')
+                                return};
+                            //Agrega los valores ingresados al nuevo arreglo
                             setItems([...items,
                             {
-                                id: counter, product: productValue,
-                                price: +priceValue,
+                                id: counter, 
+                                product: productValue.trim(),
+                                price: +priceValue.trim(),
                                 quantity: parseInt(quantitytValue, 10)
                             }
                             ]);
