@@ -1,14 +1,55 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getInvoice } from "./services/getInvoiceServices"
 import { InvoiceDataClient } from "./components/InvoiceDataClient";
 import { InvoiceDataCompany } from "./components/InvoiceDataCompany";
 import { InvoiceView } from "./components/InvoiceView";
 import { ListItemView } from "./components/ListItemsView";
 import { TotalView } from "./components/TotalView";
+import { invoice } from "./data/invoice";
 
+const invoiceInitial = {
+        id: 0,
+        name: '',
+
+        client: {
+            name: '',
+            lastName: '',
+            address: {
+                country: '',
+                city: '',
+                street: '',
+                number: 0
+            },
+
+        },
+        company: {
+            name: '',
+            fiscalNumber: 0,
+        },
+        items: []
+
+    }
 export const InvoiceApp = () => {
+
+    //Objeto para que lo maneje el estado de react, para que solo se ejecute la primera vez
+    const [invoice, setInvoice] = useState(invoiceInitial);
+
+    //------------------------------------------------------
+    const [items, setItems] = useState([]);
+
+    //Guarda el ciclo de vida
+    useEffect(() => {
+        //Se obtiene los datos
+        const data = getInvoice();
+        console.log(data)
+        //Se guarda el objeto obtenido de backend y asigna al objeto en frontend
+        setInvoice(data);
+        setItems(data.items)
+    }, [])
+
+
     //Se desestructura para obtener los atributos y objetos del json
-    const { total, id, client, name, company, items: itemsInitial } = getInvoice();
+    const { total, id, client, name, company, items: itemsInitial } = invoice
 
 
     //Alternativa para declarar un hook useState-Estado del formulario
@@ -20,35 +61,16 @@ export const InvoiceApp = () => {
     //Se desestructura constante useState para convertirlas en variables
     const { product, price, quantity } = formItemsState;
 
-    // const [productValue, setProductValue] = useState('')
-    // const [priceValue, setPriceValue] = useState('')
-    // const [quantitytValue, setQuantityValue] = useState('')
-    //------------------------------------------------------
-    const [items, setItems] = useState(itemsInitial);
+
     //------------------------------------------------------
     const [counter, setCounter] = useState(4)
     //------------------------------------------------------
-    // Se desectructura el event
-    // const onProductChange = ({target}) => {
-    //                                 console.log(target.value)
-    //                                 setProductValue(target.value)
-    //                                 //target es el campo
-    //                                 //value es el valor ingresado
-    //                             }
-    // const onPriceChange = ({target}) => {
-    //                                 console.log(target.value)
-    //                                 setPriceValue(target.value)
-    //                             }  
 
-    // const onQuantityChange = ({target}) => {
-    //                                 console.log(target.value)
-    //                                 setQuantityValue(target.value)
-    //                             }
 
     //Alternativa para definir solo un método de onChange para cada valor del formulario
     const onInputChange = ({ target }) => {
-        console.log(target.name)
-        console.log(target.value)
+        // console.log(target.name)
+        // console.log(target.value)
 
         setFormItemsState({ ...formItemsState, [target.name]: target.value });
     };
