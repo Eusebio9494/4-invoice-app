@@ -18,6 +18,51 @@ export const InvoiceApp = () => {
     const [items, setItems] = useState(itemsInitial);
 
     const [counter, setCounter] = useState(4)
+    // Se desectructura el event
+    const onProductChange = ({target}) => {
+                                    console.log(target.value)
+                                    setProductValue(target.value)
+                                    //target es el campo
+                                    //value es el valor ingresado
+                                }
+    const onPriceChange = ({target}) => {
+                                    console.log(target.value)
+                                    setPriceValue(target.value)
+                                }  
+    
+    const onQuantityChange = ({target}) => {
+                                    console.log(target.value)
+                                    setQuantityValue(target.value)
+                                }
+
+    const onInvoiceItemsSubmit = (event) => {
+                            event.preventDefault();
+
+                            if(!productValue.trim()) return;
+                            if(priceValue.trim().length <= 1) return;
+                            if(isNaN(priceValue.trim())) {
+                                alert('Error el precio no es un número')
+                                return};
+                            if(quantitytValue.trim().length < 1) {
+                                alert('Error la cantidad tiene que ser mayor a 0')
+                                return};
+                            if(isNaN(quantitytValue)) {
+                                alert('Error la cantidad no es un número')
+                                return};
+                            //Agrega los valores ingresados al nuevo arreglo
+                            setItems([...items,
+                            {
+                                id: counter, 
+                                product: productValue.trim(),
+                                price: +priceValue.trim(),
+                                quantity: parseInt(quantitytValue.trim(), 10)
+                            }
+                            ]);
+                            setProductValue('');
+                            setPriceValue('');
+                            setQuantityValue('');
+                            setCounter(counter + 1)
+                        }
     return (
         <>
             <div className="container">
@@ -42,61 +87,31 @@ export const InvoiceApp = () => {
                         <ListItemView title='Productos' items={items} />
                         <TotalView total={total} />
 
-                        <form onSubmit={event => {
-                            event.preventDefault();
-
-                            if(!productValue.trim()) return;
-                            if(priceValue.trim().length <= 1) return;
-                            if(isNaN(priceValue.trim())) {
-                                alert('Error el precio no es un número')
-                                return};
-                            if(quantitytValue.trim().length < 1) {
-                                alert('Error la cantidad tiene que ser mayor a 0')
-                                return};
-                            if(isNaN(quantitytValue)) {
-                                alert('Error la cantidad no es un número')
-                                return};
-                            //Agrega los valores ingresados al nuevo arreglo
-                            setItems([...items,
-                            {
-                                id: counter, 
-                                product: productValue.trim(),
-                                price: +priceValue.trim(),
-                                quantity: parseInt(quantitytValue, 10)
-                            }
-                            ]);
-                            setProductValue('');
-                            setPriceValue('');
-                            setQuantityValue('');
-                            setCounter(counter + 1)
-                        }}>
+                        <form className="w-50" onSubmit={event => onInvoiceItemsSubmit(event)}>
                             <input type="text"
                                 name="product"
                                 value={productValue} //para limpiar valor despues de enviar formulario
-                                placeholder="Producto" className="form-control m-4" onChange={event => {
-                                    console.log(event.target.value)
-                                    setProductValue(event.target.value)
-                                    //target es el campo
-                                    //value es el valor ingresado
-                                }} />
+                                placeholder="Producto" 
+                                className="form-control m-3" 
+                                //Método de referencia
+                                onChange={onProductChange} />
 
                             <input type="text"
                                 name="price"
                                 value={priceValue}
-                                placeholder="Precio" className="form-control m-4" onChange={event => {
-                                    console.log(event.target.value)
-                                    setPriceValue(event.target.value)
-                                }} />
+                                placeholder="Precio" 
+                                className="form-control m-3" 
+                                onChange={event => onPriceChange(event)} />
 
                             <input type="text"
                                 name="quantity"
                                 value={quantitytValue}
-                                placeholder="Quantity" className="form-control m-4" onChange={event => {
-                                    console.log(event.target.value)
-                                    setQuantityValue(event.target.value)
-                                }} />
+                                placeholder="Quantity" 
+                                className="form-control m-3" 
+                                // Método de referencia
+                                onChange={onQuantityChange} />
                             <button 
-                            type="submit" className="btn btn-primary m-4">
+                            type="submit" className="btn btn-primary m-3">
                                 Nuevo Item
                                 </button>
                         </form>
