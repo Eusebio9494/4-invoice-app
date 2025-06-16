@@ -46,6 +46,7 @@ export const FormItemView = ( {handler} ) => {
             return
         };
 
+        //Recibe función handler del padre y le regresa los items agregados en el formulario
         handler(formItemsState);
         
         setFormItemsState({

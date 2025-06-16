@@ -66,6 +66,7 @@ export const InvoiceApp = () => {
     }, [items]);
  
 
+    //Agrega los items recibidos del form y los agrega al arreglo de useState
     const handlerAddItems = ( {product, price,quantity}) => {
        
         //Agrega los valores ingresados al nuevo arreglo
@@ -80,6 +81,12 @@ export const InvoiceApp = () => {
         setCounter(counter + 1)
     };
 
+    //Actualiza los items con los id que sean diferentes al id eliminado
+    const handlerDeleteItem = (id) => {
+        setItems(items.filter(item => item.id !==id))
+    }
+
+    //Función para actualizar el valor booleano para ocultar formulario
     const onAction = () => {
         setActiveForm(!activeForm);
     }
@@ -105,11 +112,14 @@ export const InvoiceApp = () => {
                             </div>
                         </div>
 
-                        <ListItemView title='Productos' items={items} />
+                        {/* Pasa la función handlerDeleteItem a componentes hijos para que le regresen el valor indicado y lo
+                        envia a la función handlerDeleteItem en este componente*/}
+                        <ListItemView title='Productos' items={items} handlerDeleteItem ={ (id) => {handlerDeleteItem(id)}}/>
                         <TotalView total={total} />
                         <button className="btn btn-secondary" 
-                        onClick={ onAction }>{'Agregar Item'}</button>
-                        { !activeForm? '': <FormItemView handler= {(newItem) => handlerAddItems(newItem)} />}
+                        onClick={ onAction }>{!activeForm ? 'Agregar Item':'Ocultar Formulario'}</button>
+                        {/*{ !activeForm? '': <FormItemView handler= {(newItem) => handlerAddItems(newItem)} />} */}
+                        { !activeForm || <FormItemView handler= {newItem => {handlerAddItems(newItem)}} />}
                     </div>
                 </div>
             </div>
