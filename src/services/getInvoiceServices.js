@@ -8,9 +8,12 @@ export const getInvoice = () => {
     //     total += item.price * item.quantity;
     // });
 
-    const total = invoice.items
+    // const total = calculateTotal(invoice.items);
+    return {...invoice};
+}
+
+export const calculateTotal = (items = []) => {
+    return items
     .map( item => item.price * item.quantity)
     .reduce( (accumulator, currentValue) => accumulator + currentValue, 0);//empieza en 0 el acumulador
-
-    return {...invoice, total};
 }
