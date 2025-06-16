@@ -32,6 +32,8 @@ const invoiceInitial = {
     }
 export const InvoiceApp = () => {
 
+    const [activeForm, setActiveForm] = useState(false);
+
     //Objeto para que lo maneje el estado de react, para que solo se ejecute la primera vez
     const [invoice, setInvoice] = useState(invoiceInitial);
 
@@ -76,7 +78,12 @@ export const InvoiceApp = () => {
         }
         ]);
         setCounter(counter + 1)
+    };
+
+    const onAction = () => {
+        setActiveForm(!activeForm);
     }
+
     return (
         <>
             <div className="container">
@@ -100,7 +107,9 @@ export const InvoiceApp = () => {
 
                         <ListItemView title='Productos' items={items} />
                         <TotalView total={total} />
-                        <FormItemView handler= {(newItem) => handlerAddItems(newItem)} />
+                        <button className="btn btn-secondary" 
+                        onClick={ onAction }>{'Agregar Item'}</button>
+                        { !activeForm? '': <FormItemView handler= {(newItem) => handlerAddItems(newItem)} />}
                     </div>
                 </div>
             </div>
