@@ -1,6 +1,5 @@
 import { RowItemView } from "./RowItemView"
 import PropTypes from 'prop-types'
-import { TotalView } from "./TotalView"
 
 export const ListItemView = ({title, items}) => {
     

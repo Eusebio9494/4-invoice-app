@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getInvoice } from "./services/getInvoiceServices"
+import { calculateTotal, getInvoice } from "./services/getInvoiceServices"
 import { InvoiceDataClient } from "./components/InvoiceDataClient";
 import { InvoiceDataCompany } from "./components/InvoiceDataCompany";
 import { InvoiceView } from "./components/InvoiceView";
@@ -36,6 +36,23 @@ export const InvoiceApp = () => {
 
     //------------------------------------------------------
     const [items, setItems] = useState([]);
+    
+    //Alternativa para declarar un hook useState-Estado del formulario
+    const [formItemsState, setFormItemsState] = useState({
+        product: '',
+        price: '',
+        quantity: '',
+    });
+
+    //Se desestructura para obtener los atributos y objetos del json
+    const { id, client, name, company } = invoice
+
+    //Se desestructura constante useState para convertirlas en variables
+    const { product, price, quantity } = formItemsState;
+    //------------------------------------------------------
+    const [counter, setCounter] = useState(4)
+
+    const [total, setTotal] = useState(0);
 
     //Guarda el ciclo de vida
     useEffect(() => {
@@ -45,26 +62,22 @@ export const InvoiceApp = () => {
         //Se guarda el objeto obtenido de backend y asigna al objeto en frontend
         setInvoice(data);
         setItems(data.items)
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        console.log('El precio cambio')
+    }, [price])//2° parametro es el evento que dispara el useEffect 
+    useEffect(() => {
+        console.log('Los items cambiaron')
+    }, [items])//2° parametro es el evento que dispara el useEffect 
+
+    //Actualizar el precio total de productos
+    useEffect( () => {
+        setTotal(calculateTotal(items))
+    }, [items]);
+ 
 
 
-    //Se desestructura para obtener los atributos y objetos del json
-    const { total, id, client, name, company, items: itemsInitial } = invoice
-
-
-    //Alternativa para declarar un hook useState-Estado del formulario
-    const [formItemsState, setFormItemsState] = useState({
-        product: '',
-        price: '',
-        quantity: '',
-    });
-    //Se desestructura constante useState para convertirlas en variables
-    const { product, price, quantity } = formItemsState;
-
-
-    //------------------------------------------------------
-    const [counter, setCounter] = useState(4)
-    //------------------------------------------------------
 
 
     //Alternativa para definir solo un método de onChange para cada valor del formulario
@@ -72,6 +85,7 @@ export const InvoiceApp = () => {
         // console.log(target.name)
         // console.log(target.value)
 
+        //Agrega mediante Spread nuevos valores al arreglo, el nombre del input/atributo y su valor
         setFormItemsState({ ...formItemsState, [target.name]: target.value });
     };
     const onInvoiceItemsSubmit = (event) => {
