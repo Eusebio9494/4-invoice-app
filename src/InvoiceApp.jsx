@@ -1,68 +1,96 @@
-import { useState } from "react";
-import { getInvoice } from "./services/getInvoiceServices"
+import { useEffect, useState } from "react";
+import { calculateTotal, getInvoice } from "./services/getInvoiceServices"
 import { InvoiceDataClient } from "./components/InvoiceDataClient";
 import { InvoiceDataCompany } from "./components/InvoiceDataCompany";
 import { InvoiceView } from "./components/InvoiceView";
 import { ListItemView } from "./components/ListItemsView";
 import { TotalView } from "./components/TotalView";
+import { invoice } from "./data/invoice";
+import { FormItemView } from "./components/FormItemView";
 
+const invoiceInitial = {
+        id: 0,
+        name: '',
+
+        client: {
+            name: '',
+            lastName: '',
+            address: {
+                country: '',
+                city: '',
+                street: '',
+                number: 0
+            },
+
+        },
+        company: {
+            name: '',
+            fiscalNumber: 0,
+        },
+        items: []
+
+    }
 export const InvoiceApp = () => {
+
+    const [activeForm, setActiveForm] = useState(false);
+
+    //Objeto para que lo maneje el estado de react, para que solo se ejecute la primera vez
+    const [invoice, setInvoice] = useState(invoiceInitial);
+
+    //------------------------------------------------------
+    const [items, setItems] = useState([]);
+
     //Se desestructura para obtener los atributos y objetos del json
-    const { total, id, client, name, company, items: itemsInitial } = getInvoice();
+    const { id, client, name, company } = invoice
 
-
-    const [productValue, setProductValue] = useState('')
-    const [priceValue, setPriceValue] = useState(0)
-    const [quantitytValue, setQuantityValue] = useState(0)
-
-    const [items, setItems] = useState(itemsInitial);
-
+    //------------------------------------------------------
     const [counter, setCounter] = useState(4)
-    // Se desectructura el event
-    const onProductChange = ({target}) => {
-                                    console.log(target.value)
-                                    setProductValue(target.value)
-                                    //target es el campo
-                                    //value es el valor ingresado
-                                }
-    const onPriceChange = ({target}) => {
-                                    console.log(target.value)
-                                    setPriceValue(target.value)
-                                }  
-    
-    const onQuantityChange = ({target}) => {
-                                    console.log(target.value)
-                                    setQuantityValue(target.value)
-                                }
 
-    const onInvoiceItemsSubmit = (event) => {
-                            event.preventDefault();
+    const [total, setTotal] = useState(0);
 
-                            if(!productValue.trim()) return;
-                            if(priceValue.trim().length <= 1) return;
-                            if(isNaN(priceValue.trim())) {
-                                alert('Error el precio no es un número')
-                                return};
-                            if(quantitytValue.trim().length < 1) {
-                                alert('Error la cantidad tiene que ser mayor a 0')
-                                return};
-                            if(isNaN(quantitytValue)) {
-                                alert('Error la cantidad no es un número')
-                                return};
-                            //Agrega los valores ingresados al nuevo arreglo
-                            setItems([...items,
-                            {
-                                id: counter, 
-                                product: productValue.trim(),
-                                price: +priceValue.trim(),
-                                quantity: parseInt(quantitytValue.trim(), 10)
-                            }
-                            ]);
-                            setProductValue('');
-                            setPriceValue('');
-                            setQuantityValue('');
-                            setCounter(counter + 1)
-                        }
+    //Guarda el ciclo de vida
+    useEffect(() => {
+        //Se obtiene los datos
+        const data = getInvoice();
+        // console.log(data)
+        //Se guarda el objeto obtenido de backend y asigna al objeto en frontend
+        setInvoice(data);
+        setItems(data.items)
+    }, []);
+
+
+
+    //Actualizar el precio total de productos
+    useEffect( () => {
+        setTotal(calculateTotal(items))
+    }, [items]);
+ 
+
+    //Agrega los items recibidos del form y los agrega al arreglo de useState
+    const handlerAddItems = ( {product, price,quantity}) => {
+       
+        //Agrega los valores ingresados al nuevo arreglo
+        setItems([...items,
+        {
+            id: counter,
+            product: product.trim(),
+            price: +price.trim(),
+            quantity: parseInt(quantity.trim(), 10)
+        }
+        ]);
+        setCounter(counter + 1)
+    };
+
+    //Actualiza los items con los id que sean diferentes al id eliminado
+    const handlerDeleteItem = (id) => {
+        setItems(items.filter(item => item.id !==id))
+    }
+
+    //Función para actualizar el valor booleano para ocultar formulario
+    const onAction = () => {
+        setActiveForm(!activeForm);
+    }
+
     return (
         <>
             <div className="container">
@@ -84,37 +112,14 @@ export const InvoiceApp = () => {
                             </div>
                         </div>
 
-                        <ListItemView title='Productos' items={items} />
+                        {/* Pasa la función handlerDeleteItem a componentes hijos para que le regresen el valor indicado y lo
+                        envia a la función handlerDeleteItem en este componente*/}
+                        <ListItemView title='Productos' items={items} handlerDeleteItem ={ (id) => {handlerDeleteItem(id)}}/>
                         <TotalView total={total} />
-
-                        <form className="w-50" onSubmit={event => onInvoiceItemsSubmit(event)}>
-                            <input type="text"
-                                name="product"
-                                value={productValue} //para limpiar valor despues de enviar formulario
-                                placeholder="Producto" 
-                                className="form-control m-3" 
-                                //Método de referencia
-                                onChange={onProductChange} />
-
-                            <input type="text"
-                                name="price"
-                                value={priceValue}
-                                placeholder="Precio" 
-                                className="form-control m-3" 
-                                onChange={event => onPriceChange(event)} />
-
-                            <input type="text"
-                                name="quantity"
-                                value={quantitytValue}
-                                placeholder="Quantity" 
-                                className="form-control m-3" 
-                                // Método de referencia
-                                onChange={onQuantityChange} />
-                            <button 
-                            type="submit" className="btn btn-primary m-3">
-                                Nuevo Item
-                                </button>
-                        </form>
+                        <button className="btn btn-secondary" 
+                        onClick={ onAction }>{!activeForm ? 'Agregar Item':'Ocultar Formulario'}</button>
+                        {/*{ !activeForm? '': <FormItemView handler= {(newItem) => handlerAddItems(newItem)} />} */}
+                        { !activeForm || <FormItemView handler= {newItem => {handlerAddItems(newItem)}} />}
                     </div>
                 </div>
             </div>
