@@ -20,6 +20,7 @@ concurrency:
 jobs:
   name: Build
   run-on: ubuntu-latest
+  if: ${{ github.ref == 'refs/heads/feature/invoice_git_actions'}}
   steps:
     - name: Construir Aplicación
       uses: action/checkout@v4
