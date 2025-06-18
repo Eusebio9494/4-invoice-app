@@ -5,7 +5,6 @@ import { InvoiceDataCompany } from "./components/InvoiceDataCompany";
 import { InvoiceView } from "./components/InvoiceView";
 import { ListItemView } from "./components/ListItemsView";
 import { TotalView } from "./components/TotalView";
-import { invoice } from "./data/invoice";
 import { FormItemView } from "./components/FormItemView";
 
 const invoiceInitial = {
