@@ -40,7 +40,7 @@ jobs:
         run: npm run build
 
       - name: Subir artefacto
-        uses: actions/upload_artifact@v4
+        uses: actions/upload-artifact@v4
         with:
           name: app-invoice-vite
           path: dist/
