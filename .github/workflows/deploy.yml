@@ -8,7 +8,7 @@ on:
   #   inputs:
   #     deploy
 
-default:
+defaults:
   run:
     shell: bash
     working-directory: .
@@ -18,29 +18,29 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  name: Build
-  run-on: ubuntu-latest
-  if: ${{ github.ref == 'refs/heads/feature/invoice_git_actions'}}
-  steps:
-    - name: Construir Aplicación
-      uses: action/checkout@v4
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Construir Aplicación
+        uses: action/checkout@v4
 
-    - name: Instalar Node
-      uses: action/setup-node@v3
-      with:
-        node-version: 20
+      - name: Instalar Node
+        uses: action/setup-node@v3
+        with:
+          node-version: 20
 
-    - name: Instalar dependencias
-      run: npm install
+      - name: Instalar dependencias
+        run: npm install
 
-    - name: Lins (EsLint)
-      run: npm run lint
+      - name: Lins (EsLint)
+        run: npm run lint
 
-    - name: Construir artefacto/aplicación
-      run: npm run build
+      - name: Construir artefacto/aplicación
+        run: npm run build
 
-    - name: Subir artefacto
-      uses: action/upload_artifact@v3
+      - name: Subir artefacto
+        uses: action/upload_artifact@v3
         with:
           name: app-invoice-vite
           path: dist/
