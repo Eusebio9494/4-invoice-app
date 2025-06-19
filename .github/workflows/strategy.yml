@@ -8,7 +8,7 @@ jobs:
     call-deploy:
         strategy:
             matrix:
-                node-version: [14,20]
+                node-version: [20]
                 os: [ubuntu-latest, windows-latest]
             max-parallel: 2
         uses: ./.github/workflows/deploy.yml
