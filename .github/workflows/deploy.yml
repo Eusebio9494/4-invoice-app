@@ -48,6 +48,7 @@ jobs:
     name: Desplegar
     strategy:
       matrix:
+        node-version: [20]
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
 
@@ -58,7 +59,7 @@ jobs:
         - name: Bajar artefacto
           uses: actions/download-artifact@v4
           with:
-            name: app-invoice-vite
+            name: app-invoice-vite-${{ matrix.os }}-node-${{ matrix.node-version}}
           
         - run:  echo "Se descargo el artefacto"
         
