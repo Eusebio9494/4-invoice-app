@@ -18,14 +18,10 @@ defaults:
     shell: bash
     working-directory: .
 
-concurrency:
-  group: ${{ github.workflow }}
-  cancel-in-progress: true
-
 jobs:
   build:
     name: Build
-    runs-on: ${{inputs.os}}
+    runs-on: ${{ inputs.os }}
     steps:
       - name: Construir Aplicación
         uses: actions/checkout@v4
