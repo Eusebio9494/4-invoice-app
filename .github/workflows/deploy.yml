@@ -18,9 +18,9 @@ defaults:
     shell: bash
     working-directory: .
 
-concurrency:
-  group: ${{ github.workflow }}
-  cancel-in-progress: true
+# concurrency:
+#   group: ${{ github.workflow }}
+#   cancel-in-progress: true
 
 jobs:
   build:
