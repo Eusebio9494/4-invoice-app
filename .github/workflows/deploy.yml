@@ -45,6 +45,7 @@ jobs:
           name: app-invoice-vite
           path: dist/
   deploy:
+    needs: build
     name: Desplegar
     runs-on: ubuntu-latest
     if: ${{ github.ref == 'ref/head/feature/invoice_git_actions' }}
