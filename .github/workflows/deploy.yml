@@ -59,7 +59,7 @@ jobs:
         - name: Bajar artefacto
           uses: actions/download-artifact@v4
           with:
-            name: app-invoice-vite-${{ matrix.os }}-node-${{ matrix.node-version}}
+            name: 
           
         - run:  echo "Se descargo el artefacto"
         
@@ -68,10 +68,10 @@ jobs:
         
         - run: echo "Se configuro configure-pages"
 
-        - name: Subida a gh pages
-          uses: actions/upload-pages-artifact@v3
-          with:
-            path: dist/
+        # - name: Subida a gh pages
+        #   uses: actions/upload-pages-artifact@v3
+        #   with:
+        #     path: dist/
 
-        - name: Despliegue de artefacto en GH Pages
-          uses: actions/deploy-pages@v4
+        # - name: Despliegue de artefacto en GH Pages
+        #   uses: actions/deploy-pages@v4
