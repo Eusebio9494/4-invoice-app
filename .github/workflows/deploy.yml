@@ -5,11 +5,11 @@ on:
     branches:
     - feature/invoice_git_actions
 
+
 defaults:
   run:
     shell: bash
     working-directory: .
-
 
 jobs:
   build:
@@ -18,7 +18,8 @@ jobs:
       matrix:
         node-version: [20]
         os: [ubuntu-latest, windows-latest]
-    runs-on: ${{ matrix.os}}
+      max-parallel: 2
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Construir Aplicación
         uses: actions/checkout@v4
@@ -40,12 +41,15 @@ jobs:
       - name: Subir artefacto
         uses: actions/upload-artifact@v4
         with:
-          name: app-invoice-vite
+          name: app-invoice-vite-${{ matrix.os }}-node-${{ matrix.node-version}}
           path: dist/
   deploy:
     needs: build
     name: Desplegar
-    runs-on: ${{ inputs.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
 
     steps:
         - name: Clonar repositorio
