@@ -30,13 +30,17 @@ jobs:
           node-version: ${{ matrix.node-version}}
 
       - name: Instalar dependencias
-        run: npm install
+        run: | 
+          npm install
+          echo "Dependencias instaladas"
 
       - name: Lins (EsLint)
         run: npm run lint
 
       - name: Construir artefacto/aplicación
-        run: npm run build
+        run: |
+          npm run build
+          echo "Artefacto construido"
 
       - name: Subir artefacto
         uses: actions/upload-artifact@v4
