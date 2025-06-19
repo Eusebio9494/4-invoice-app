@@ -18,6 +18,10 @@ defaults:
     shell: bash
     working-directory: .
 
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Build
@@ -29,7 +33,7 @@ jobs:
       - name: Instalar Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ inputs.node-version}}
 
       - name: Instalar dependencias
         run: npm install
