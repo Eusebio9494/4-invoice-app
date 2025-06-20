@@ -41,6 +41,7 @@ jobs:
         run: |
           npm run build
           echo "Artefacto construido"
+          echo: "### Artefacto Construido :rocket:" >> $GITHUB_STEP_SUMMARY 
 
       - name: Subir artefacto
         uses: actions/upload-artifact@v4
