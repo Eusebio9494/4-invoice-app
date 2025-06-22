@@ -1,4 +1,4 @@
-name: -CI/CD Invoice App-
+name: CI/CD Invoice App
 
 on:
   push:
