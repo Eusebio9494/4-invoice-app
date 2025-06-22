@@ -1,6 +1,10 @@
 name: CI/CD Invoice App
 
-on: workflow_dispatch
+on:
+  push:
+    branches:
+    - feature/invoice_git_actions
+  # workflow_dispatch
 
 
 defaults:
