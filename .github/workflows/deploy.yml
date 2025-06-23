@@ -45,12 +45,16 @@ jobs:
           echo "Artefacto construido"
           echo "::debug::Artefacto construido!!"
           echo "### Artefacto Construido- ${{ matrix.os}} :rocket:" >> $GITHUB_STEP_SUMMARY 
+          echo "action_state=yellow" >> "$GITHUB_ENV"
 
       - name: Subir artefacto
         uses: actions/upload-artifact@v4
         with:
           name: app-invoice-vite-${{ matrix.os }}-node-${{ matrix.node-version}}
           path: dist/
+        
+      - name: Texto de impresión
+        run: echo $action_state
   deploy:
     needs: build
     name: Desplegar
