@@ -22,39 +22,52 @@ jobs:
         os: [ubuntu-latest, windows-latest]
       max-parallel: 2
     runs-on: ${{ matrix.os }}
+    outputs:
+      output1: ${{ steps.construir_artefacto.outputs.valor1}} #Hay que definir los id en cada step para que sean identificados y poder usar outputs
+      output2: ${{ steps.imprimir_texto.outputs.valor2}} #Hay que definir los id en cada step para que sean identificados y poder usar outputs
     steps:
       - name: Construir Aplicación
+        id: clonar_repositorio
         uses: actions/checkout@v4
 
       - name: Instalar Node
+        id: instalar_node
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version}}
 
       - name: Instalar dependencias
+        id: instalar_dependencias
         run: | 
           npm install
           echo "Dependencias instaladas"
 
       - name: Lins (EsLint)
+        id: lint
         run: npm run lint
 
       - name: Construir artefacto/aplicación
+        id: construir_artefacto
         run: |
           npm run build
           echo "Artefacto construido"
           echo "::debug::Artefacto construido!!"
           echo "### Artefacto Construido- ${{ matrix.os}} :rocket:" >> $GITHUB_STEP_SUMMARY 
           echo "action_state=yellow" >> "$GITHUB_ENV"
+          echo "valor1= since_job1_step5" >> $GITHUB_OUTPUT
 
       - name: Subir artefacto
+        id: subir_artefacto
         uses: actions/upload-artifact@v4
         with:
           name: app-invoice-vite-${{ matrix.os }}-node-${{ matrix.node-version}}
           path: dist/
         
       - name: Texto de impresión
-        run: echo $action_state
+        id: imprimir_texto
+        run: |
+          echo $action_state
+          echo "valor2= $action_state" >> $GITHUB_OUTPUT
   deploy:
     needs: build
     name: Desplegar
@@ -74,6 +87,11 @@ jobs:
             name: 
           
         - run:  echo "Se descargo el artefacto"
+
+        - env:
+            OUTPUT1: ${{ needs.build.outputs.output1}}
+            OUTPUT2: ${{ needs.build.outputs.output2}}
+          run: echo "$OUTPUT1 $OUTPUT2"
         
         # - name: Configurar GH Pages
         #   uses: actions/configure-pages@v5
