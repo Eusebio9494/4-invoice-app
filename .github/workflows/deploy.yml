@@ -24,7 +24,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     outputs:
       output1: ${{ steps.construir_artefacto.outputs.valor1}} #Hay que definir los id en cada step para que sean identificados y poder usar outputs
-      output2: ${{ steps.imprimir_texto.outputs.valor2}} #Hay que definir los id en cada step para que sean identificados y poder usar outputs
+      output2: ${{ steps.imprimir_texto.outputs.valor2}} 
+    env:
+      mysecret: ${{ secrets.MY_TOKEN_AZURE_CLOUD }}
     steps:
       - name: Construir Aplicación
         id: clonar_repositorio
@@ -62,12 +64,16 @@ jobs:
         with:
           name: app-invoice-vite-${{ matrix.os }}-node-${{ matrix.node-version}}
           path: dist/
-        
+
       - name: Texto de impresión
         id: imprimir_texto
+        if: ${{ env.mysecret != '' }}
         run: |
+          echo "### Ejecutando impresiones en consola :rocket:" >>$GITHUB_STEP_SUMMARY
           echo $action_state
           echo "valor2= $action_state" >> $GITHUB_OUTPUT
+
+        
   deploy:
     needs: build
     name: Desplegar
