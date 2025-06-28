@@ -72,6 +72,7 @@ jobs:
           echo "### Ejecutando impresiones en consola :rocket:" >>$GITHUB_STEP_SUMMARY
           echo $action_state
           echo "valor2= $action_state" >> $GITHUB_OUTPUT
+          echo "El secreto es: $mysecret"
 
         
   deploy:
