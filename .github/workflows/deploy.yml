@@ -3,7 +3,7 @@ name: CI/CD Invoice App
 on:
   push:
     branches:
-    - feature/invoice_git_actions
+    - feature/invoice_git_actions_workflow_call
   workflow_call:
     inputs:
       node-version:

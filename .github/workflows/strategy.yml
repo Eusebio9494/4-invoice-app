@@ -2,7 +2,7 @@ name: CI With Matrix
 
 on:
     push: 
-        branches: [feature/invoice_git_actions]
+        branches: [feature/invoice_git_actions_workflow_call]
 
 jobs:
     call-deploy:
