@@ -81,10 +81,6 @@ jobs:
   deploy:
     needs: build
     name: Desplegar
-    strategy:
-      matrix:
-        node-version: [20]
-        os: [ubuntu-latest, windows-latest]
     runs-on: ${{ inputs.os }}
 
     steps:
