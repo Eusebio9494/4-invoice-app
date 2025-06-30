@@ -3,7 +3,6 @@ name: CI With Matrix
 on:
     push: 
         branches: [feature/invoice_git_actions_workflow_call]
-
 jobs:
     call-deploy:
         strategy:
@@ -15,3 +14,5 @@ jobs:
         with:
             node-version: ${{ matrix['node-version']}}
             os: ${{ matrix['os']}}
+        secrets:
+            mysecret: ${{ secrets.MY_TOKEN_AZURE_CLOUD }}

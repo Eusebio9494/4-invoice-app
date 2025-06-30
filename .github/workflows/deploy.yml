@@ -12,6 +12,9 @@ on:
       os:
         required: true
         type: string
+    secrets:
+      mysecret:
+        required: true
 
 
 defaults:
@@ -28,7 +31,7 @@ jobs:
       output1: ${{ steps.construir_artefacto.outputs.valor1}} #Hay que definir los id en cada step para que sean identificados y poder usar outputs
       output2: ${{ steps.imprimir_texto.outputs.valor2}} 
     env:
-      mysecret: ${{ secrets.MY_TOKEN_AZURE_CLOUD }}
+      mysecret: ${{ secrets.mysecret }}
     steps:
       - name: Construir Aplicación
         id: clonar_repositorio
