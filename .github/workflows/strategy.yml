@@ -3,8 +3,14 @@ name: CI With Matrix
 on:
     push: 
         branches: [feature/invoice_git_actions_workflow_call]
+
+
+
 jobs:
     call-deploy:
+        concurrency: 
+            group: deploy-${{github.workflow}}-${{github.ref}}
+            cancel-in-progress: true
         strategy:
             matrix:
                 node-version: [20]
