@@ -9,7 +9,7 @@ on:
 jobs:
     call-deploy:
         concurrency: 
-            group: deploy-${{github.workflow}}-${{github.ref}}
+            group: deploy-${{ matrix.os}}-${{github.ref}}
             cancel-in-progress: true
         strategy:
             matrix:
