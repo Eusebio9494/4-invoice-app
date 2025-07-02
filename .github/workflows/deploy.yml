@@ -103,10 +103,15 @@ jobs:
     name: Probar acciones personales
     runs-on: ubuntu-latest
     steps:
-      - name: Llamar javascript-action-example  
+      - name: Llamar javascript-action-example
+        id: hello
         uses: Eusebio9494/javascript-action-example@v1.1
         with:
-          who-to-greet: # default is world
+          who-to-greet: Eusebio Olvera
+      
+      # Use the output from the `hello` step
+      - name: Get the output time form the action
+        run: echo "The time was ${{ steps.hello.outputs.time }}"
 
        
         
