@@ -91,7 +91,7 @@ jobs:
         - name: Bajar artefacto
           uses: actions/download-artifact@v4
           with:
-            name: app-invoice-vite-${{ matrix.os }}-node-${{ matrix.node-version}}
+            name: 
           
         - run:  echo "Se descargo el artefacto"
 
