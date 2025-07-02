@@ -99,6 +99,14 @@ jobs:
             OUTPUT1: ${{ needs.build.outputs.output1}}
             OUTPUT2: ${{ needs.build.outputs.output2}}
           run: echo "$OUTPUT1 $OUTPUT2"
+  call-actions:
+    name: Probar acciones personales
+    runs-on: ubuntu-latest
+    steps:
+      - name: Llamar javascript-action-example  
+        uses: Eusebio9494/javascript-action-example@v1.1
+        with:
+          who-to-greet: # default is world
 
        
         
