@@ -91,7 +91,7 @@ jobs:
         - name: Bajar artefacto
           uses: actions/download-artifact@v4
           with:
-            name: 
+            name: app-invoice-vite-${{ matrix.os }}-node-${{ matrix.node-version}}
           
         - run:  echo "Se descargo el artefacto"
 
@@ -99,6 +99,8 @@ jobs:
             OUTPUT1: ${{ needs.build.outputs.output1}}
             OUTPUT2: ${{ needs.build.outputs.output2}}
           run: echo "$OUTPUT1 $OUTPUT2"
+
+       
         
         # - name: Configurar GH Pages
         #   uses: actions/configure-pages@v5
