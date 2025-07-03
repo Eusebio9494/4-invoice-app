@@ -111,7 +111,9 @@ jobs:
       
       # Use the output from the `hello` step
       - name: Get the output time form the action
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
+        run: |
+          echo "The time was ${{ steps.hello.outputs.time }}"
+          echo "### Ejecución de javascript-action-example completa :rocket:" >> $GITHUB_STEP_SUMMARY
 
       - name: Llamar a docker-action-example
         id: hello-docker-action
@@ -120,7 +122,9 @@ jobs:
           who-to-greet: Eusebio
         
       - name: Get the output time form the action
-        run: echo "The time was ${{steps.hello-docker-action.outputs.time }}"
+        run: |
+          echo "The time was ${{steps.hello-docker-action.outputs.time }}"
+          echo "### Ejecución de docker-action-example completa :rocket:" >> $GITHUB_STEP_SUMMARY
         
         # - name: Configurar GH Pages
         #   uses: actions/configure-pages@v5
