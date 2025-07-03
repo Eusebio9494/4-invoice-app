@@ -110,7 +110,7 @@ jobs:
           who-to-greet: Eusebio Olvera
       
       # Use the output from the `hello` step
-      - name: Get the output time form the action
+      - name: Get the output time from the action
         run: |
           echo "The time was ${{ steps.hello.outputs.time }}"
           echo "### Ejecución de javascript-action-example completa :rocket:" >> $GITHUB_STEP_SUMMARY
@@ -121,10 +121,22 @@ jobs:
         with:
           who-to-greet: Eusebio
         
-      - name: Get the output time form the action
+      - name: Get the output time from the action
         run: |
           echo "The time was ${{steps.hello-docker-action.outputs.time }}"
           echo "### Ejecución de docker-action-example completa :rocket:" >> $GITHUB_STEP_SUMMARY
+
+
+      - name: Llamar a composite-action-example
+        id: hello-composite-action
+        uses: Eusebio9494/composite-action-example@v1.2
+        with:
+            who-to-greet: Eusebio Olvera
+        
+      - name: Get the output random-number from the action
+        run: |
+          echo "The random number was ${{ steps.hello-composite-action.outputs.random-number }}"
+          echo "### Ejecución de composite-action-example completa :rocket:" >> $GITHUB_STEP_SUMMARY
         
         # - name: Configurar GH Pages
         #   uses: actions/configure-pages@v5
