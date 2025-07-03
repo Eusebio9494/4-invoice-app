@@ -129,7 +129,7 @@ jobs:
 
       - name: Llamar a composite-action-example
         id: hello-composite-action
-        uses: Eusebio9494/composite-action-example@v1.2
+        uses: Eusebio9494/composite-action-example@v1.3
         with:
             who-to-greet: Eusebio Olvera
         
