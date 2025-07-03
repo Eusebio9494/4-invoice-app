@@ -115,7 +115,7 @@ jobs:
 
       - name: Llamar a docker-action-example
         id: hello-docker-action
-        uses: Eusebio9494/docker-action-example@v1.3
+        uses: Eusebio9494/docker-action-example@v1.4
         with:
           who-to-greet: Eusebio
         
