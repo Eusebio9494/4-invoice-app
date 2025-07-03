@@ -113,7 +113,14 @@ jobs:
       - name: Get the output time form the action
         run: echo "The time was ${{ steps.hello.outputs.time }}"
 
-       
+      - name: Llamar a docker-action-example
+        id: hello-docker-action
+        uses: Eusebio9494/docker-action-example@v1.3
+        with:
+          who-to-greet: Eusebio
+        
+      - name: Get the output time form the action
+        run: echo "The time was ${{steps.hello-docker-action.outputs.time }}"
         
         # - name: Configurar GH Pages
         #   uses: actions/configure-pages@v5
